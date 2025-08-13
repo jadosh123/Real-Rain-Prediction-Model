@@ -16,6 +16,8 @@ Accurate and localized rainfall prediction is crucial for various sectors, inclu
 
 3) Perform model selection with cross-validation, after finding the best performing model perform parameter hyper-tuning to further improve the model's performance (The performance will be evaluated by the RMSLE between the model's predicted value and the IMS forecast value).
 
+    *A key architectural consideration for the model's granularity is whether to implement spatial downscaling as an integral part of the prediction process (where the model directly predicts for each grid block from the outset, incorporating local features like elevation), or as a post-processing step applied to broader area predictions. The former approach offers potentially higher accuracy by allowing the model to learn localized patterns directly but introduces increased complexity in data preparation and model training. This decision will be further explored and finalized in consultation with the project supervisor.*
+
 4) Build a backend API for the model with FastAPI or Flask, deploy the model on AWS and have it fetch the last 5 years of data entries to preprocess and train on with the pipelines built from stage 2.
 
 5) Deploy the model with online mini-batch learning, its performance will be evaluated with RMSLE between the model's prediction and the IMS forecast each time it trains on a new batch of data, if the RMSLE exceeds a certain threshold the backend will trigger a retraining routine that includes the first 5 year snapshot and the new accumulated data entries to prevent catastrophic forgetting and adapt to data drift (Trigger-Based Retraining).
